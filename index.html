@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>奥志摩 金山南店</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Meiryo",sans-serif}#map{width:100%;height:100vh;min-height:500px}
+.mv{background:#c53030;color:#fff;font-weight:bold;font-size:13px;padding:4px 10px;border-radius:6px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.35);border:2px solid #fff;text-align:center;position:relative}
+.mv::after{content:"";position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid #c53030}
+.mp{background:#147EA6;color:#fff;font-weight:bold;font-size:12px;padding:3px 8px;border-radius:6px;white-space:nowrap;box-shadow:0 2px 4px rgba(0,0,0,.3);border:2px solid #fff;text-align:center;position:relative}
+.mp::after{content:"";position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #147EA6}
+.lg{background:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.2);font-size:13px;line-height:1.8}
+.li{display:flex;align-items:center;gap:8px}.lc{display:inline-block;width:20px;height:14px;border-radius:3px}
+.leaflet-popup-content{font-family:"Meiryo",sans-serif;font-size:13px;line-height:1.6}
+</style></head><body><div id="map"></div>
+<script>
+(function(){
+var vL=35.1413261,vN=136.9012607,nm="奥志摩 金山南店",ad="名古屋市熱田区金山町1丁目10-3",ps=[{"name": "アスナル金山駐車場", "address": "日本、〒460-0022 愛知県名古屋市中区金山１丁目１７−１", "lat": 35.1441, "lng": 136.9013003, "capacity": "1700台", "rate": "20分200円", "max_rate": "最大1,500円", "source_url": "https://www.asunal.jp/access/"}, {"name": "名鉄協商パーキング キング観光サウザンド金山店", "address": "日本、〒460-0022 愛知県名古屋市中区金山４丁目１−１", "lat": 35.144214, "lng": 136.9032613, "capacity": "291台", "rate": "30分200円", "max_rate": "", "source_url": "https://mkp.jp/search/detail/005956-0/"}, {"name": "名鉄協商パーキング 金山橋", "address": "日本、〒456-0003 愛知県名古屋市熱田区波寄町２５", "lat": 35.141879599999996, "lng": 136.9034752, "capacity": "42台", "rate": "20分200円", "max_rate": "最大1,200円", "source_url": "https://mkp.jp/search/detail/005109-0/"}, {"name": "名鉄協商パーキング 金山駅北", "address": "日本、〒460-0022 愛知県名古屋市中区金山１丁目１１−１１", "lat": 35.1452405, "lng": 136.9004572, "capacity": "17台", "rate": "30分200円", "max_rate": "", "source_url": "https://mkp.jp/search/detail/003580-0/"}, {"name": "名鉄協商パーキング 金山第２", "address": "日本、〒460-0022 愛知県名古屋市中区金山２丁目８−８", "lat": 35.145507699999996, "lng": 136.903064, "capacity": "11台", "rate": "20分200円", "max_rate": "", "source_url": "https://mkp.jp/search/detail/001963-0/"}, {"name": "タイムズ金山町第４", "address": "日本、〒456-0002 愛知県名古屋市熱田区金山町１丁目８−８", "lat": 35.141560999999996, "lng": 136.899644, "capacity": "7台", "rate": "60分220円", "max_rate": "最大770円", "source_url": "https://times-info.net/P23-aichi/C109/park-detail-BUK0017241/"}, {"name": "タイムズ金山町", "address": "日本、〒456-0002 愛知県名古屋市熱田区金山町２丁目３−３", "lat": 35.140933, "lng": 136.90372499999998, "capacity": "7台", "rate": "60分220円", "max_rate": "最大770円", "source_url": "https://times-info.net/P23-aichi/C109/park-detail-BUK0017241/"}, {"name": "三井のリパーク 金山駅南駐車場", "address": "日本、〒460-0023 愛知県名古屋市中区中区金山町１丁目１−１ 金山南ビル", "lat": 35.142584, "lng": 136.8997497, "capacity": "", "rate": "", "max_rate": "", "source_url": ""}, {"name": "三井のリパーク 金山第１４ 駐車場", "address": "日本、〒456-0002 愛知県名古屋市熱田区金山町２丁目３−１１", "lat": 35.1407232, "lng": 136.9031995, "capacity": "", "rate": "", "max_rate": "", "source_url": ""}, {"name": "三井のリパーク 金山４丁目第２ 駐車場", "address": "日本、〒460-0022 愛知県名古屋市中区金山４丁目２−１４", "lat": 35.1436784, "lng": 136.9041882, "capacity": "", "rate": "", "max_rate": "", "source_url": ""}];
+var m=L.map('map');L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OSM',maxZoom:19}).addTo(m);
+var b=L.latLngBounds([[vL,vN]]);
+var vi=L.divIcon({className:'',html:'<div class="mv">会場</div>',iconSize:[null,null],iconAnchor:[28,38],popupAnchor:[0,-40]});
+L.marker([vL,vN],{icon:vi}).addTo(m).bindPopup('<b>'+esc(nm)+'</b><br>'+esc(ad)+'<br><a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(ad)+'" target="_blank">Google Maps</a>');
+ps.forEach(function(p,i){
+var lb='P'+(i+1);var pi=L.divIcon({className:'',html:'<div class="mp">'+lb+'</div>',iconSize:[null,null],iconAnchor:[18,32],popupAnchor:[0,-34]});
+var mk=L.marker([p.lat,p.lng],{icon:pi}).addTo(m);
+var info=p.capacity?(p.capacity+(p.rate?' / '+p.rate:'')+(p.max_rate?' / '+p.max_rate:'')):'';
+mk.bindPopup('<b>'+esc(p.name)+'</b><br><span style="font-size:12px;color:#666">'+esc(p.address)+'</span>'+(info?'<br><span style="color:#147EA6;font-size:12px">'+esc(info)+'</span>':'')+'<br><a href="https://www.google.com/maps/search/?api=1&query='+p.lat+','+p.lng+'" target="_blank" style="font-size:12px">Google Maps</a>');
+b.extend([p.lat,p.lng]);});
+m.fitBounds(b,{padding:[50,50],maxZoom:16});
+var lg=L.control({position:'bottomright'});lg.onAdd=function(){var d=L.DomUtil.create('div','lg');d.innerHTML='<div class="li"><span class="lc" style="background:#c53030"></span> 会場</div><div class="li"><span class="lc" style="background:#147EA6"></span> 駐車場</div>';return d};lg.addTo(m);
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+})();
+</script></body></html>
